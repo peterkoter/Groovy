@@ -20,26 +20,16 @@ enum Activity {
  */
 
 def basalMetabolicRate(Gender gender, Number weight, Number height, Number age) {
-    def offset
-    def weightScale
-    def heightScale
-    def ageScale
-
     switch (gender) {
         case MALE:
-            offset = 88.362
-            weightScale = 13.397
-            heightScale = 4.799
-            ageScale = 5.677
-            break
+            return formula(88.362, (13.397 * weight), (4.799 * height), (5.677 * age))
         case FEMALE:
-            offset = 447.593
-            weightScale = 9.247
-            heightScale = 3.098
-            ageScale = 4.330
-            break
+            return formula(447.593, (9.247 * weight), (3.098 * height), (4.330 * age))
     }
-    offset + (weightScale * weight) + (heightScale * height) - (ageScale * age)
+}
+
+def formula(Number offset, Number scaledWeight, Number scaledHeight, Number scaledAge) {
+    offset + scaledWeight + scaledHeight - scaledAge
 }
 
 def dailyCalorieIntake(Activity activity, Number basalMetabolicRate) {
